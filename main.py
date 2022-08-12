@@ -3,9 +3,9 @@ The Main File
     compile this
 """
 
-import tkinter as tk
+from tkinter import Tk, Button
 from tkinter.messagebox import showinfo
-import subprocess
+from subprocess import Popen, PIPE
 import os
 import json
 from functools import partial
@@ -61,8 +61,8 @@ else:
 def find_proc(proc_name):
     "Finds the PID given the process name"
     coms = ["tasklist", "|", "findstr", proc_name]
-    with subprocess.Popen(
-        coms, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+    with Popen(
+        coms, stdout=PIPE, stderr=PIPE, shell=True
     ) as proc:
         stdout, stderr = proc.communicate()
     items = stdout.decode("utf-8").split(" ")
@@ -77,10 +77,12 @@ def find_proc(proc_name):
 def set_vol(p_id, val):
     "Sets the volume of a process w/ nircmd given the PID"
     coms = ["nircmd", "setappvolume", f"/{p_id}", val]
-    with subprocess.Popen(
-        coms, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+    with Popen(
+        coms, stdout=PIPE, stderr=PIPE, shell=True
     ) as proc:
-        proc.communicate()
+        stdout, stderr = proc.communicate()
+    if stderr:
+        bruh_moment("You don't have nircmd installed or in the current folder.")
     print(f"Volume set to {val}")
 
 
@@ -91,7 +93,7 @@ def change_vol(percent):
     set_vol(proc_id, percent)
 
 
-window = tk.Tk()
+window = Tk()
 
 
 def make_buttons():
@@ -99,7 +101,7 @@ def make_buttons():
     for volume in volumes:
         human_volume = f"{volume}%"
         fixed_volume = str(int(volume) / 100)
-        button = tk.Button(
+        button = Button(
             window,
             text=human_volume,
             width=10,

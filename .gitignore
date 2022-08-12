@@ -3,3 +3,6 @@ nircmd.exe
 venv.lnk
 venv/
 settings.json
+build/
+dist/
+__pycache__/
