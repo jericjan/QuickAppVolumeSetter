@@ -61,9 +61,7 @@ else:
 def find_proc(proc_name):
     "Finds the PID given the process name"
     coms = ["tasklist", "|", "findstr", proc_name]
-    with Popen(
-        coms, stdout=PIPE, stderr=PIPE, shell=True
-    ) as proc:
+    with Popen(coms, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True) as proc:
         stdout, stderr = proc.communicate()
     items = stdout.decode("utf-8").split(" ")
     items = [x for x in items if x]
@@ -77,9 +75,7 @@ def find_proc(proc_name):
 def set_vol(p_id, val):
     "Sets the volume of a process w/ nircmd given the PID"
     coms = ["nircmd", "setappvolume", f"/{p_id}", val]
-    with Popen(
-        coms, stdout=PIPE, stderr=PIPE, shell=True
-    ) as proc:
+    with Popen(coms, stdin=PIPE, stdout=PIPE, stderr=PIPE) as proc:
         stdout, stderr = proc.communicate()
     if stderr:
         bruh_moment("You don't have nircmd installed or in the current folder.")
