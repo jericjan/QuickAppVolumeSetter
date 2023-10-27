@@ -12,7 +12,7 @@ from functools import partial
 import sys
 import threading
 import time
-
+from pathlib import Path
 
 def bruh_moment(msg, do_exit=True):
     """Sends a pop-up message and exits. Usually a user error"""
@@ -77,7 +77,8 @@ def find_proc(proc_name):
 
 def set_vol(p_id, val):
     "Sets the volume of a process w/ nircmd given the PID"
-    coms = ["nircmd", "setappvolume", f"/{p_id}", val]
+    nircmd_path = Path(__file__).resolve().with_name("nircmd.exe")
+    coms = [nircmd_path, "setappvolume", f"/{p_id}", val]
     with Popen(coms, stdin=PIPE, stdout=PIPE, stderr=PIPE) as proc:
         stdout, stderr = proc.communicate()
     if stderr:
