@@ -5,7 +5,7 @@ a = Analysis(
     ['main.py'],
     pathex=['C:\\Users\\USER\\Desktop\\JJ\\python\\app-vol-setter-gui\\venv\\Lib\\site-packages'],
     binaries=[],
-    datas=[('nircmd.exe', '.'), ('NirCmd.chm', '.'), ('nircmdc.exe', '.')],
+    datas=[('nircmd.exe', '.'), ('NirCmd.chm', '.'), ('nircmdc.exe', '.'), ('icon.png', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

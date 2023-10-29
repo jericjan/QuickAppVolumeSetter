@@ -3,7 +3,7 @@ The Main File
     compile this
 """
 
-from tkinter import Tk, Button, Frame, Listbox, Variable
+from tkinter import Tk, Button, Frame, Listbox, Variable, PhotoImage
 from tkinter.messagebox import showinfo
 from subprocess import Popen, PIPE
 import os
@@ -13,6 +13,8 @@ import sys
 import threading
 import time
 from pathlib import Path
+
+
 
 def bruh_moment(msg, do_exit=True):
     """Sends a pop-up message and exits. Usually a user error"""
@@ -77,7 +79,7 @@ def find_proc(proc_name):
 
 def set_vol(p_id, val):
     "Sets the volume of a process w/ nircmd given the PID"
-    nircmd_path = Path(__file__).resolve().with_name("nircmd.exe")
+    nircmd_path = get_file("nircmd.exe")
     coms = [nircmd_path, "setappvolume", f"/{p_id}", val]
     with Popen(coms, stdin=PIPE, stdout=PIPE, stderr=PIPE) as proc:
         stdout, stderr = proc.communicate()
@@ -104,8 +106,12 @@ def change_vol(percent):
     else:
         bruh_moment("You did not select a process!", do_exit=False)
 
-window = Tk()
+def get_file(file_name):
+    return Path(__file__).resolve().with_name(file_name)
 
+window = Tk()
+photo = PhotoImage(file=get_file("icon.png"))
+window.iconphoto(True, photo)
 
 def make_buttons():
     "Creates the buttons that will be shown on the GUI"
